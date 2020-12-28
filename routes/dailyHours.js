@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
-let players = require("../dummyDatabase");
+let dailyHours = require("../dummyDatabase");
+console.log("dailyHours = ", dailyHours);
 
 router.get("/list", async (req, res) => {
   console.log("req = ", req);
   try {
     res.status(200).json({
-      data: players
+      data: dailyHours
     });
   } catch (err) {
     res.status(400).json({
@@ -20,9 +21,10 @@ router.get("/:id", async (req, res) => {
   let { id } = req.params;
   id = Number(id);
   try {
-    let player = players.find(player => player._id === id);
+    let day = dailyHours.find(day => day.id === id);
+    console.log("day = ", day);
     res.status(200).json({
-      data: player
+      data: day
     });
   } catch (err) {
     res.status(400).json({

@@ -5,14 +5,14 @@ const bodyParser = require("body-parser");
 const logger = require("morgan");
 
 const port = process.env.PORT || 3001;
-const playersRouter = require("./routes/players");
+const dailyHoursRouter = require("./routes/dailyHours");
 
 app.use(logger('dev'));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use("/players", playersRouter);
+app.use("/dailyHours", dailyHoursRouter);
 
 app.listen(port, function() {
   console.log("Runnning on " + port);
