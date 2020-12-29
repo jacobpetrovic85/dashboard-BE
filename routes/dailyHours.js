@@ -4,7 +4,6 @@ let dailyHours = require("../dummyDatabase");
 console.log("dailyHours = ", dailyHours);
 
 router.get("/list", async (req, res) => {
-  console.log("req = ", req);
   try {
     res.status(200).json({
       data: dailyHours
