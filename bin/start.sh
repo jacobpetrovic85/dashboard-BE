@@ -9,5 +9,5 @@ PORTSAGAIN=`lsof -t -i:$PORT`
 if [ "${PORTSAGAIN:-0}" == 0 ]; then
     echo "[i] Localhost:$PORT is closed"
     echo "[i] Opening app with nodemon on localhost:$PORT"
-    nodemon ./lib/app.js
+    nodemon ./index.js
 fi
