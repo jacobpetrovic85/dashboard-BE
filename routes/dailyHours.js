@@ -36,16 +36,16 @@ router.get("/:id", async (req, res) => {
 router.post("/upload", async (req, res) => {
   let newEntry = GUID(req.body);
   try {
-    if (isValid(DB)(newEntry)) {
+    if (isValid(DB)(newEntry,R.identity)) {
       console.log('Valid!');
       console.log("newEntry = ", newEntry);
       writeFile('dummyTESTDatabase.json',newEntry, DB);
       return res.status(200).json({
         data: newEntry
       });
-  } else {
-    console.log('not Valid');
-  }
+    } else {
+      console.log('not Valid');
+    }
 
   } catch (err) {
     res.status(400).json({
@@ -58,18 +58,18 @@ router.post("/upload", async (req, res) => {
 router.delete("/delete", async (req, res) => {
   let oldEntry = req.body;
   console.log("oldEntry = ", oldEntry);
+  console.log("isValid(DB)(oldEntry,R.not) = ", isValid(DB)(oldEntry,R.not));
   try {
-    if (true) {
+    if (isValid(DB)(oldEntry,R.not)) {
       console.log('Valid!');
       console.log("oldEntry = ", oldEntry);
       deleteEntry('dummyTESTDatabase.json',oldEntry, DB);
       return res.status(200).json({
         data: oldEntry
       });
-  } else {
-    console.log('not Valid');
-  }
-
+    } else {
+      console.log('not Valid');
+    }
   } catch (err) {
     res.status(400).json({
       message: "Some error occured",
