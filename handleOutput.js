@@ -8,13 +8,19 @@ let handleOutput = {
       {data: data}
     );
   },
-  outputDB: data => {
+  // outputDB: data => {
+  //   console.log("data = ", data);
+  //   return (
+  //     {data: parseDB(data)}
+  //   );
+  // },
+    outputDB: data => {
     return (
-      {data: parseDB(data)}
+      {data: data}
     );
   },
   findId: db => id => {
-    return db.find(day => day.id === id);
+    return db.dailyHours.find(day => day.id === id);
   }
 };
 

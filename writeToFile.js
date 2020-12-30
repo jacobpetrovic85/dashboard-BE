@@ -1,8 +1,10 @@
-const DB = require('./dummyDatabase');
+// const DB = require('./dummyDatabase');
 const fs = require('fs');
+const R = require('Ramda');
 
-let stringifyDB = db => {
-  return db.map(obj => JSON.stringify(obj));
+
+let stringifyData = db => {
+  return JSON.stringify(db);
 };
 
 let parseDB = db => {
@@ -13,13 +15,14 @@ let parseData = data => {
   return JSON.parse(data);
 };
 
-let writeFile = db => (file,data) => {
-  let strDB = stringifyDB(DB);
-  console.log("strDB = ", strDB);
-  let newDB = [...DB, parseData(data)];
-  console.log("newDB = ", newDB);
-
-  return fs.writeFile(file, `let dailyHours = [${newDB}]; module.exports = dailyHours;`, (err) => {
+let writeFile = (file,data,DB) => {
+  let newArr = R.compose(
+    R.append(data),
+    R.prop('dailyHours'))
+  (DB);
+  let lens = R.lens(R.prop('dailyHours'), R.assoc('dailyHours'));
+  let newDB = R.set(lens, newArr, DB);
+  return fs.writeFile(file, stringifyData(newDB), (err) => {
     if (err)
       console.log(err);
     else {
@@ -30,4 +33,4 @@ let writeFile = db => (file,data) => {
   });
 };
 
-module.exports = writeFile(DB);
+module.exports = writeFile;

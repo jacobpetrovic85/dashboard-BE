@@ -5,6 +5,7 @@ const fs = require('fs');
 const writeFile = require('../writeToFile');
 const handleOutput =  require('../handleOutput.js');
 const DB = require('../dummyTESTDatabase.json');
+// const DB = require('../dummyDatabase.js');
 const isValid = require('../handleInput');
 
 router.get("/list", async (req, res) => {
@@ -35,7 +36,7 @@ router.post("/upload", async (req, res) => {
   let body = req.body;
   if (isValid(body)) {
     console.log('Valid!');
-    writeFile('dummyTESTDatabase.js',JSON.stringify(body));
+    writeFile('dummyTESTDatabase.json',body, DB);
   } else {
     console.log('not Valid');
   }
