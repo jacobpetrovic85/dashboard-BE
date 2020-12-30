@@ -14,12 +14,15 @@ let parseDB = db => {
 let parseData = data => {
   return JSON.parse(data);
 };
-
-let writeFile = (file,data,DB) => {
-  let newArr = R.compose(
+let makeNewArr = (data,DB) => {
+  return R.compose(
     R.append(data),
     R.prop('dailyHours'))
   (DB);
+};
+
+let writeFile = (file,data,DB) => {
+  let newArr = makeNewArr(data, DB);
   let lens = R.lens(R.prop('dailyHours'), R.assoc('dailyHours'));
   let newDB = R.set(lens, newArr, DB);
   return fs.writeFile(file, stringifyData(newDB), (err) => {

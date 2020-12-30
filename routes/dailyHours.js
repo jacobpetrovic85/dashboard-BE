@@ -5,8 +5,8 @@ const fs = require('fs');
 const writeFile = require('../writeToFile');
 const handleOutput =  require('../handleOutput.js');
 const DB = require('../dummyTESTDatabase.json');
-// const DB = require('../dummyDatabase.js');
 const isValid = require('../handleInput');
+const GUID = require('../GUID.js');
 
 router.get("/list", async (req, res) => {
   try {
@@ -33,18 +33,29 @@ router.get("/:id", async (req, res) => {
 });
 
 router.post("/upload", async (req, res) => {
-  let body = req.body;
-  if (isValid(body)) {
-    console.log('Valid!');
-    writeFile('dummyTESTDatabase.json',body, DB);
+  // let UUID = createUUID();
+  // let newEntry = makeInputWithUUID(req.body, UUID);
+  let newEntry = GUID(req.body);
+  // if (isValid(newEntry)) {
+  //   console.log('Valid!');
+  //   console.log("newEntry = ", newEntry);
+  //   // writeFile('dummyTESTDatabase.json',body, DB);
+  // } else {
+  //   console.log('not Valid');
+  // }
+  // id = Number(id);
+  try {
+    if (isValid(newEntry)) {
+      console.log('Valid!');
+      console.log("newEntry = ", newEntry);
+      writeFile('dummyTESTDatabase.json',newEntry, DB);
+      return res.status(200).json({
+        data: newEntry
+      });
   } else {
     console.log('not Valid');
   }
-  // id = Number(id);
-  try {
-    res.status(200).json({
-      data: body
-    });
+
   } catch (err) {
     res.status(400).json({
       message: "Some error occured",
