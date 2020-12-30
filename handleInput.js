@@ -1,4 +1,3 @@
-const DB = require('./dummyDatabase');
 const R = require('Ramda');
 
 let checkUniqueId = db => id => db.filter(c => c.id === id).length === 0;
@@ -14,4 +13,4 @@ let isValid = (db) => (hoursCandidate) => {
   }, true);
 };
 
-module.exports = isValid(DB);
+module.exports = isValid;
