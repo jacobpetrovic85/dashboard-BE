@@ -5,7 +5,7 @@ const fs = require('fs');
 const writeFile = require('../writeToFile');
 const deleteEntry = require('../deleteEntry');
 const handleOutput =  require('../handleOutput.js');
-const DB = require('../dummyTESTDatabase.json');
+const DB = require('../db.json');
 const isValid = require('../handleInput');
 const GUID = require('../GUID.js');
 
@@ -39,7 +39,7 @@ router.post("/upload", async (req, res) => {
     if (isValid(DB)(newEntry,R.identity)) {
       console.log('Valid!');
       console.log("newEntry = ", newEntry);
-      writeFile('dummyTESTDatabase.json',newEntry, DB);
+      writeFile('db.json',newEntry, DB);
       return res.status(200).json({
         data: newEntry
       });
@@ -63,7 +63,7 @@ router.delete("/delete", async (req, res) => {
     if (isValid(DB)(oldEntry,R.not)) {
       console.log('Valid!');
       console.log("oldEntry = ", oldEntry);
-      deleteEntry('dummyTESTDatabase.json',oldEntry, DB);
+      deleteEntry('db.json',oldEntry, DB);
       return res.status(200).json({
         data: oldEntry
       });
