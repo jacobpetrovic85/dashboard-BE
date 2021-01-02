@@ -8,10 +8,65 @@ const handleOutput =  require('../handleOutput.js');
 const DB = require('../db.json');
 const isValid = require('../handleInput');
 const GUID = require('../GUID.js');
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const url = require('url');
+
+// GET API
+let getApiObj = {
+  method: 'GET',
+  headers: {
+    'Content-type': 'application/json',
+    'X-CMC_PRO_API_KEY': 'b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c',
+    'Accept-Encoding': 'gzip'
+  }
+};
+
+function handleResponse () {
+  console.log('this.responseText = ', this.responseText);
+  return this.responseText;
+}
+let formatURL = (url, obj) => {
+  console.log("obj = ", obj);
+  let newUrl = new URL(url).toString();
+  let params = new URLSearchParams(obj).toString();
+  console.log("params = ", params);
+  console.log('newUrl + params = ', newUrl + '?' + params);
+  return newUrl + '?' + params;
+};
+
+let requests = async (obj, url, res) => {
+  var xhr = new XMLHttpRequest();
+  let formattedUrl = formatURL(url, obj);
+  xhr.open("GET", formattedUrl, true);
+  xhr.setRequestHeader('Content-Type', 'application\/json');
+  xhr.setRequestHeader('X-CMC_PRO_API_KEY', 'd9e29c8b-e083-4337-a278-668aa1689477');
+  // 4. This will be called after the response is received
+  xhr.send();
+    xhr.onload = function() {
+      if (xhr.status != 200) { // analyze HTTP status of the response
+        console.log(`Error ${xhr.status}: ${xhr.statusText}`); // e.g. 404: Not Found
+      } else { // show the result
+        res.status(200).send(handleOutput.outputData(JSON.parse(xhr.responseText))); // response is the server response
+      }
+    };
+};
 
 router.get("/list", async (req, res) => {
   try {
     res.status(200).json(handleOutput.outputDB(DB));
+  } catch (err) {
+    res.status(400).json({
+      message: "Some error occured",
+      err
+    });
+  }
+});
+
+router.get("/calling/params", async (req, res) => {
+  console.log("req = ", req.query);
+  let { query } = req.query;
+  try {
+    requests(req.query, 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest', res);
   } catch (err) {
     res.status(400).json({
       message: "Some error occured",

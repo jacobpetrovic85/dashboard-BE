@@ -14,7 +14,7 @@ let handleOutput = {
   //     {data: parseDB(data)}
   //   );
   // },
-    outputDB: data => {
+  outputDB: data => {
     return (
       {data: data}
     );
