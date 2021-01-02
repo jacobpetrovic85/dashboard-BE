@@ -34,7 +34,7 @@ let formatURL = (url, obj) => {
   return newUrl + '?' + params;
 };
 
-let requests = async (obj, url, res) => {
+let xmlNoCorsRequests = async (obj, url, res) => {
   var xhr = new XMLHttpRequest();
   let formattedUrl = formatURL(url, obj);
   xhr.open("GET", formattedUrl, true);
@@ -66,7 +66,7 @@ router.get("/calling/params", async (req, res) => {
   console.log("req = ", req.query);
   let { query } = req.query;
   try {
-    requests(req.query, 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest', res);
+    xmlNoCorsRequests(req.query, 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest', res);
   } catch (err) {
     res.status(400).json({
       message: "Some error occured",
