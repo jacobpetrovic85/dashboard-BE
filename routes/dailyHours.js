@@ -34,7 +34,7 @@ let formatURL = (url, obj) => {
   return newUrl + '?' + params;
 };
 
-let xmlNoCorsRequests = async (obj, url, res) => {
+let xmlNoCorsRequests = async (obj, url, res) => { // TODO refactor to fetch
   var xhr = new XMLHttpRequest();
   let formattedUrl = formatURL(url, obj);
   xhr.open("GET", formattedUrl, true);
@@ -110,7 +110,7 @@ router.post("/upload", async (req, res) => {
   }
 });
 
-router.delete("/delete", async (req, res) => {
+router.delete("/delete", async (req, res) => { // TODO debug
   let oldEntry = req.body;
   console.log("oldEntry = ", oldEntry);
   console.log("isValid(DB)(oldEntry,R.not) = ", isValid(DB)(oldEntry,R.not));
@@ -136,10 +136,3 @@ router.delete("/delete", async (req, res) => {
 
 
 module.exports = router;
-
-/*
-  Dummy curl POST req:
-  curl -X POST -H "Content-Type: application/json" \
-    -d '{"id": 4, "day": "31th December 2020 - 10:10", "hours": 1}' \
-    localhost:3001/dailyHours/upload
-  */
