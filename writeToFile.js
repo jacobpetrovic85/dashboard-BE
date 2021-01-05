@@ -22,6 +22,7 @@ let makeNewArr = (data,DB) => {
 };
 
 let writeFile = (file,data,DB) => {
+  console.log('data = ', data);
   let newArr = makeNewArr(data, DB);
   let lens = R.lens(R.prop('dailyHours'), R.assoc('dailyHours'));
   let newDB = R.set(lens, newArr, DB);

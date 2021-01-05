@@ -22,15 +22,11 @@ let getApiObj = {
 };
 
 function handleResponse () {
-  console.log('this.responseText = ', this.responseText);
   return this.responseText;
 }
 let formatURL = (url, obj) => {
-  console.log("obj = ", obj);
   let newUrl = new URL(url).toString();
   let params = new URLSearchParams(obj).toString();
-  console.log("params = ", params);
-  console.log('newUrl + params = ', newUrl + '?' + params);
   return newUrl + '?' + params;
 };
 
@@ -90,6 +86,7 @@ router.get("/:id", async (req, res) => {
 
 router.post("/upload", async (req, res) => {
   let newEntry = GUID(req.body);
+  console.log('req.body = ', req.body);
   try {
     if (isValid(DB)(newEntry,R.identity)) {
       console.log('Valid!');
