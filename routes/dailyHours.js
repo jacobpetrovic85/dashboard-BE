@@ -20,7 +20,7 @@ let getApiObj = {
     'Accept-Encoding': 'gzip'
   }
 };
-
+// TODO factor out
 function handleResponse () {
   return this.responseText;
 }
